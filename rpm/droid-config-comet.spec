@@ -15,8 +15,6 @@
 # No device reset
 Provides: jolla-settings-system-reset
 
-Requires: droid-system-%{device}
-
 Requires: libgbinder-tools
 
 # Device-specific ofono configuration
