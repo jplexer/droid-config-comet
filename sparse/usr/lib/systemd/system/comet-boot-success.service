@@ -1,0 +1,13 @@
+[Unit]
+Description=Mark the current A/B slot as successfully booted
+After=droid-hal-init.service comet-linkerconfig.service
+Requires=droid-hal-init.service
+
+[Service]
+Type=oneshot
+# Only count it as successful once the system has been up for a while
+ExecStartPre=/bin/sleep 30
+ExecStart=/usr/libexec/droid-hybris/system/bin/bootctl mark-boot-successful
+
+[Install]
+WantedBy=multi-user.target

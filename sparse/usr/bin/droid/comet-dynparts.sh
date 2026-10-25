@@ -65,6 +65,19 @@ for d in /dev/cpuset /dev/cpuctl /dev/blkio; do
     find "$d" \( -name tasks -o -name cgroup.procs \) -exec chmod 0664 {} +
 done
 
+### Android-style /dev/block/by-name with absolute links (as ueventd creates
+### them). Pixel's boot HAL derives the disk from the link target
+### ("/dev/block/sdX"), udev's relative links break it. Also add the whole-
+### disk nodes, which udev doesn't create under /dev/block.
+[ -L /dev/block/by-name ] && rm -f /dev/block/by-name
+mkdir -p /dev/block/by-name
+for l in /dev/block/platform/13200000.ufs/by-name/*; do
+    ln -sf "/dev/block/$(basename "$(readlink -f "$l")")" "/dev/block/by-name/$(basename "$l")"
+done
+for d in /dev/sd?; do
+    [ -e "/dev/block/${d##*/}" ] || ln -s "../${d##*/}" "/dev/block/${d##*/}"
+done
+
 ### debug output
 grep -E " /system| /vendor| /product| /system_ext|cgroup|selinux" /proc/mounts
 ls /sys/fs/selinux/class | wc -l
