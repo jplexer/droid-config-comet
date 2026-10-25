@@ -1,0 +1,5 @@
+# The touch driver hands the touch bus to the AoC on screen-off (TBN) and
+# requests it back on screen-on. The AoC firmware never acknowledges this
+# without Pixel's Android touch stack, so every handover waits ~3 s for a
+# timeout and touch is dead after wake-up. Keep the touch ICs active instead.
+ACTION=="add", SUBSYSTEM=="goog_touch_interface", KERNEL=="gti.*", ATTR{force_active}="1"
