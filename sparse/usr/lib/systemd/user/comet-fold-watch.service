@@ -1,0 +1,10 @@
+[Unit]
+Description=Restart the shell when the Pixel 9 Pro Fold is folded/unfolded
+After=lipstick.service
+
+[Service]
+ExecStart=/bin/sh /usr/bin/droid/comet-fold-watch.sh
+Restart=always
+
+[Install]
+WantedBy=user-session.target
