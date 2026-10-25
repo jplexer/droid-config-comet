@@ -1,0 +1,10 @@
+[Unit]
+Description=Mirror the display brightness onto the outer panel while folded
+After=mce.service
+
+[Service]
+ExecStart=/bin/sh /usr/bin/droid/comet-brightness-sync.sh
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
