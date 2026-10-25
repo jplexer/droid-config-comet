@@ -29,3 +29,11 @@ else
     echo "vendor.common.modules.ready timeout"
 fi
 grep -E "^N:" /proc/bus/input/devices
+
+### Audio: the AoC firmware is booted by aocd (class late_start, which never
+### starts here); the audio HAL needs the AoC sound card, so start it after.
+setprop ctl.start aocd
+for i in $(seq 1 30); do grep -q aoc /proc/asound/cards 2>/dev/null && break; sleep 1; done
+cat /proc/asound/cards
+setprop ctl.start vendor.audio-hal-aidl
+echo "audio HAL: $(getprop init.svc.vendor.audio-hal-aidl 2>/dev/null)"

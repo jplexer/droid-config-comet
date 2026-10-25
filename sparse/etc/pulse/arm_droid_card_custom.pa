@@ -1,0 +1,2 @@
+### comet: the AIDL audio HAL has no audio_policy_configuration.xml
+load-module module-droid-card rate=48000 hw_volume=false sink_format=float32le config=/etc/pulse/comet_audio_policy_configuration.xml

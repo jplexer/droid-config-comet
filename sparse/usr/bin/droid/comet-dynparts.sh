@@ -27,6 +27,13 @@ mnt vendor      /vendor      $ASLOT
 mnt system_ext  /system_ext  $ASLOT
 mnt product     /product     $ASLOT
 mnt vendor_dlkm /vendor_dlkm $SLOT
+### system_ext sets ro.audio.ihaladaptervendorextension_enabled=true, which makes
+### libaudiohal wait forever for a system_ext service that only Android's
+### audioserver uses. Override it before droid-hal-init loads the properties.
+if grep -q "^ro.audio.ihaladaptervendorextension_enabled=true" /system_ext/etc/build.prop; then
+    sed 's/^ro.audio.ihaladaptervendorextension_enabled=true/ro.audio.ihaladaptervendorextension_enabled=false/' /system_ext/etc/build.prop > /run/comet-system_ext-build.prop
+    mount --bind /run/comet-system_ext-build.prop /system_ext/etc/build.prop
+fi
 mnt system_dlkm /system_dlkm $SLOT
 
 ### SELinux: service managers need selinuxfs + a loaded policy.
