@@ -1,7 +1,0 @@
-# init.comet.rc starts insmod_sh_comet from "on early-boot" after
-# wait_for_prop vendor.common.modules.ready, which never fires under
-# droid-hal-init. Start it on the property instead: loads Wi-Fi
-# (bcmdhd4390), touch (goodix_brl_touch, syna_touch), speaker amps and
-# haptics, then sets vendor.all.modules.ready.
-on property:vendor.common.modules.ready=1
-    start insmod_sh_comet
