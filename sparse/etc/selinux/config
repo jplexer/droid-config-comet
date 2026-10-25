@@ -1,0 +1,5 @@
+# PID1 must not load a policy (it crashes: /vendor is not mounted yet);
+# comet-dynparts.sh loads vendor precompiled_sepolicy after mounting it.
+# SELINUXTYPE is still needed so logind & co. find their contexts.
+SELINUX=disabled
+SELINUXTYPE=minimum

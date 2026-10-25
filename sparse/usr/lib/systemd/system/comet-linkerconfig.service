@@ -1,0 +1,13 @@
+[Unit]
+Description=Regenerate Android linker config after APEX activation
+After=droid-hal-init.service
+Requires=droid-hal-init.service
+Before=autologin@100000.service user@100000.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/bin/sh /usr/bin/droid/comet-linkerconfig.sh
+
+[Install]
+WantedBy=multi-user.target
