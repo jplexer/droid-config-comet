@@ -8,7 +8,7 @@ HALL=/sys/devices/platform/hall_sensor/state
 in_max=$(cat $IN/max_brightness)
 out_max=$(cat $OUT/max_brightness)
 last=""
-while sleep 0.2; do
+while sleep 0.03; do
     [ "$(cat $HALL)" = "0" ] || { last=""; continue; }   # only while folded
     v=$(cat $IN/brightness) || continue
     [ "$v" = "$last" ] && continue
