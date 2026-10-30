@@ -1,0 +1,68 @@
+--- a/usr/share/lipstick-jolla-home-qt5/statusarea/StatusArea.qml
++++ b/usr/share/lipstick-jolla-home-qt5/statusarea/StatusArea.qml
+@@ -39,6 +39,19 @@
+         return Math.max(biggestCorner * 0.7, Theme.paddingMedium)
+     }
+ 
++    // Off-centre top cutout (a punch-hole camera near a corner): keep the
++    // indicators beside the hole and centre them on it vertically, instead of
++    // moving the clock below it as for a centred notch. The hole is assumed
++    // round and touching the sides of the cutout rectangle, which starts at
++    // the top edge, so its centre is at height - width / 2.
++    readonly property bool sideCutout: Screen.hasCutouts
++            && Lipstick.compositor.topmostWindowOrientation === Qt.PortraitOrientation
++            && Math.abs(Screen.topCutout.x + Screen.topCutout.width / 2 - Screen.width / 2) > Screen.width / 8
++    readonly property int sideCutoutOffset: sideCutout
++            ? Math.max(0, Math.round(Screen.topCutout.height - Screen.topCutout.width / 2
++                                     - batteryStatusIndicator.height / 2))
++            : 0
++
+     onUpdatesEnabledChanged: if (updatesEnabled) recentlyOnDisplay = updatesEnabled
+     height: iconBar.height
+     width: parent.width
+@@ -55,13 +68,15 @@
+         width: parent.width
+         // assuming the cutout case doesn't need padding due to clock item text not drawing full height
+         height: batteryStatusIndicator.height
+-                + (Screen.hasCutouts && Lipstick.compositor.topmostWindowOrientation === Qt.PortraitOrientation
++                + (statusArea.sideCutout ? statusArea.sideCutoutOffset
++                   : Screen.hasCutouts && Lipstick.compositor.topmostWindowOrientation === Qt.PortraitOrientation
+                    ? Screen.topCutout.height : 0)
+ 
+         Row {
+             id: leftIndicators
+ 
+             x: statusArea.cornerPadding
++            y: statusArea.sideCutoutOffset
+             height: batteryStatusIndicator.height
+             spacing: Theme.paddingSmall
+ 
+@@ -93,7 +108,8 @@
+ 
+             anchors {
+                 top: iconBar.top
+-                topMargin: Screen.hasCutouts && Lipstick.compositor.topmostWindowOrientation === Qt.PortraitOrientation
++                topMargin: statusArea.sideCutout ? statusArea.sideCutoutOffset
++                         : Screen.hasCutouts && Lipstick.compositor.topmostWindowOrientation === Qt.PortraitOrientation
+                            ? (Screen.topCutout.height) : 0
+                 bottom: iconBar.bottom
+                 left: leftIndicators.right
+@@ -149,11 +165,17 @@
+         Row {
+             id: rightIndicators
+ 
++            y: statusArea.sideCutoutOffset
+             height: leftIndicators.height
+             spacing: Theme.paddingSmall
+             anchors {
+                 right: parent.right
+-                rightMargin: statusArea.cornerPadding
++                // keep the right indicators left of an off-centre hole
++                rightMargin: statusArea.sideCutout
++                             && Screen.topCutout.x + Screen.topCutout.width / 2 > Screen.width / 2
++                             ? Math.max(statusArea.cornerPadding,
++                                        Screen.width - Screen.topCutout.x + Theme.paddingSmall)
++                             : statusArea.cornerPadding
+             }
+ 
+             // Location status indicator positioned to leftmost on right side

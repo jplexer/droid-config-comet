@@ -35,7 +35,10 @@ Requires: geoclue-provider-mlsdb
 
 # Devices with 2G or more memory should also include this booster
 # to improve camera startup times and the like
-#Requires: mapplauncherd-booster-silica-qt5-media
+Requires: mapplauncherd-booster-silica-qt5-media
+
+# Off-centre punch-hole status bar patch (sparse/usr/share/patchmanager)
+Requires: patchmanager
 
 %description -n patterns-sailfish-device-configuration-comet
 Pattern with packages for comet configurations

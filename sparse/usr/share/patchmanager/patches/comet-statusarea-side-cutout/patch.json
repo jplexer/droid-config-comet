@@ -1,0 +1,9 @@
+{
+    "author": "Joshua Jun",
+    "name": "comet-statusarea-side-cutout",
+    "display_name": "Status bar: off-centre punch-hole",
+    "version": "1.0.0",
+    "category": "homescreen",
+    "description": "Keeps the status bar indicators beside an off-centre punch-hole camera and centres them on it vertically. Centred notches are unchanged.",
+    "compatible": [ "5.1.0.11" ]
+}
