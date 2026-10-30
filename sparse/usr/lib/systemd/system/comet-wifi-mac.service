@@ -1,0 +1,10 @@
+[Unit]
+Description=Make wlan0 carry its real MAC before ConnMan uses it
+After=droid-hal-init.service connman.service
+
+[Service]
+Type=oneshot
+ExecStart=/bin/sh /usr/bin/droid/comet-wifi-mac.sh
+
+[Install]
+WantedBy=multi-user.target
