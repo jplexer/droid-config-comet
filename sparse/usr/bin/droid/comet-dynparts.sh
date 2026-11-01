@@ -27,6 +27,15 @@ mnt vendor      /vendor      $ASLOT
 mnt system_ext  /system_ext  $ASLOT
 mnt product     /product     $ASLOT
 mnt vendor_dlkm /vendor_dlkm $SLOT
+### Haptics: cs40l26 is probed right after switch_root, long before /vendor is
+### mounted, and gives up for good without its firmware. Keep a copy of the
+### vendor's firmware in the rootfs (/lib/firmware is searched by the kernel).
+mkdir -p /lib/firmware
+for f in /vendor/firmware/cs40l26*; do
+    [ -f "$f" ] || continue
+    cmp -s "$f" "/lib/firmware/${f##*/}" || cp "$f" /lib/firmware/
+done
+
 ### system_ext sets ro.audio.ihaladaptervendorextension_enabled=true, which makes
 ### libaudiohal wait forever for a system_ext service that only Android's
 ### audioserver uses. Override it before droid-hal-init loads the properties.

@@ -97,5 +97,7 @@
 /usr/lib/systemd/system/comet-boot-success.service
 /usr/lib/systemd/user/user-session.target.wants/comet-fold-watch.service
 /usr/lib/systemd/user/comet-fold-watch.service
+/usr/libexec/droid-hybris/system/lib64/hw/audio.primary.comet.so
 /var/lib/environment/compositor/zz-comet-display.conf
+/lib/udev/rules.d/99-comet-touch.rules
 /usr/share/ssu/features.d/adaptation-community.ini

@@ -30,3 +30,5 @@
 /var/lib/nemo-pulseaudio-parameters/modes/ihfandlineout/mainvolume
 /var/lib/nemo-pulseaudio-parameters/modes/lineout/mainvolume
 /var/lib/nemo-pulseaudio-parameters/modes/usbaudio/mainvolume
+/etc/pulse/comet_audio_policy_configuration.xml
+/etc/pulse/arm_droid_card_custom.pa
