@@ -37,3 +37,16 @@ for i in $(seq 1 30); do grep -q aoc /proc/asound/cards 2>/dev/null && break; sl
 cat /proc/asound/cards
 setprop ctl.start vendor.audio-hal-aidl
 echo "audio HAL: $(getprop init.svc.vendor.audio-hal-aidl 2>/dev/null)"
+
+### Media: Codec2. gst-droid (and with it every GStreamer user, ngfd included)
+### waits forever for IComponentStore/software, served by mediaswcodec from the
+### swcodec APEX (service in comet-media-swcodec.rc). The vendor c2 HALs are
+### class hal, which never starts here.
+for i in $(seq 1 30); do [ -x /apex/com.android.media.swcodec/bin/mediaswcodec ] && break; sleep 1; done
+for s in media.swcodec android-hardware-media-c2-hal-1-2 android-hardware-media-c2-hal-2-0-google vendor-dolby-media-c2-hal-1-0; do
+    setprop ctl.start "$s"
+done
+sleep 2
+for s in media.swcodec android-hardware-media-c2-hal-1-2 android-hardware-media-c2-hal-2-0-google vendor-dolby-media-c2-hal-1-0; do
+    echo "codec2: $s $(getprop init.svc.$s)"
+done

@@ -1,0 +1,10 @@
+# Codec2 software codecs (android.hardware.media.c2.IComponentStore/software).
+# Copied from the swcodec APEX's mediaswcodec.rc: droid-hal-init does not read
+# APEX init files. Started by comet-linkerconfig.sh once the APEX is mounted.
+service media.swcodec /apex/com.android.media.swcodec/bin/mediaswcodec
+    class main
+    disabled
+    user mediacodec
+    group camera drmrpc mediadrm
+    ioprio rt 4
+    writepid /dev/cpuset/foreground/tasks
